@@ -10,6 +10,7 @@ public class Thruster : MonoBehaviour {
 	public float totalSecondsOfFuel;
 	public float fuelRefillDelay;	//Time between turning off the thrusters and beginning of refueling in seconds
 	public float fuelRefillRate;	//% of fuel that refills per second
+	public SpriteRenderer fuelGradient; //The sprite that indicates the fuel remaining
 
 	float fuelRemaining;
 	float timeUntilRefuel;
@@ -20,9 +21,15 @@ public class Thruster : MonoBehaviour {
 		forceVector = new Vector2();
 		fuelRemaining = totalSecondsOfFuel;
 	}
-	
+
+	void Update() {
+		Vector3 newScale = fuelGradient.transform.localScale;
+		newScale.x = fuelRemaining / totalSecondsOfFuel;
+		fuelGradient.transform.localScale = newScale;
+	}
+
 	// Update is called once per frame
-	void FixedUpdate () {
+	void FixedUpdate() {
 			if (Input.GetKey(thrustButton) && fuelRemaining > 0) {
 				jet.Play();
 					
